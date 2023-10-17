@@ -1,6 +1,9 @@
 package diasfestivos.diasfestivos.servicios;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -83,7 +86,6 @@ public class DiaFestivoServicio implements IDiaFestivo {
     int mes = (h + L - 7 * m + 114) / 31;
     int dia = ((h + L - 7 * m + 114) % 31) + 1;
 
-    
     mes--;
     dia--;
 
@@ -122,6 +124,17 @@ public class DiaFestivoServicio implements IDiaFestivo {
     }
     return fecha;
   }
+
+  @Override
+  public boolean esFechaValida(String strFecha) {
+    try {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+      df.setLenient(false);
+      df.parse(strFecha);
+      return true;
+    } catch (ParseException e) {
+      return false;
+    }
+  }
+
 }
-
-

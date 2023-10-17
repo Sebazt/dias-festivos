@@ -8,4 +8,6 @@ public interface IDiaFestivo {
 
   public boolean diaEsFestivo(Date Fecha);
 
+  public boolean esFechaValida(String strFecha);
+
 }

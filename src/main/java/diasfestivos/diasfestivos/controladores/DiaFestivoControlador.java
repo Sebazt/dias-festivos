@@ -15,23 +15,21 @@ import diasfestivos.diasfestivos.interfaces.IDiaFestivo;
 @RequestMapping("/festivos")
 public class DiaFestivoControlador {
 
-    @Autowired
-    private IDiaFestivo servicio;
+  @Autowired
+  private IDiaFestivo servicio;
 
-    @RequestMapping(value = "/verificar/{año}/{mes}/{dia}", method = RequestMethod.GET)
-    public String verificarFestivo(@PathVariable int año, @PathVariable int mes, @PathVariable int dia) {
-        try {
-            Date fecha = new Date(año - 1900, mes - 1, dia);
-
-            return servicio.diaEsFestivo(fecha) ? "Es Festivo" : "No es festivo";
-
-        } catch (Exception ex) {
-            return ex.getMessage();
-        }
+  @RequestMapping(value = "/fecha/{año}/{mes}/{dia}", method = RequestMethod.GET)
+  public String verificarFestivo(@PathVariable int año, @PathVariable int mes, @PathVariable int dia) {
+    if (servicio.esFechaValida(String.valueOf(año) + "-" + String.valueOf(mes) + "-" + String.valueOf(dia))) {
+      Date fecha = new Date(año - 1900, mes - 1, dia);
+      return servicio.diaEsFestivo(fecha) ? "El día es Festivo" : "No es un día festivo";
+    }else{
+      return "La fecha no es valida";
     }
+  }
 
-    @RequestMapping(value = "/obtener/{año}", method = RequestMethod.GET)
-    public List<Date> obtener(@PathVariable int año) {
-        return servicio.obtenerDiasFestivos(año);
-    }
+  @RequestMapping(value = "/obtenerTodos/{año}", method = RequestMethod.GET)
+  public List<Date> obtener(@PathVariable int año) {
+    return servicio.obtenerDiasFestivos(año);
+  }
 }
